@@ -45,12 +45,32 @@ elseif ($func == 'add' || $func == 'edit')
     $field = $form->addTextField('service_name');
     $field->setLabel($this->i18n('iwcc_cookie_service_name'));
     $field = $form->addTextAreaField('definition');
+    $field->setAttributes(['class' => 'form-control codemirror', 'name'=> $field->getAttribute('name'), 'data-codemirror-mode' => 'text/x-yaml']);
     $field->setLabel($this->i18n('iwcc_cookie_definition'));
     $field = $form->addTextField('provider');
     $field->setLabel($this->i18n('iwcc_cookie_provider'));
     $field = $form->addTextField('provider_link_privacy');
     $field->setLabel($this->i18n('iwcc_cookie_provider_link_privacy'));
     $field->setNotice($this->i18n('iwcc_cookie_notice_provider_link_privacy'));
+
+    if ($func == 'edit' && $form->getSql()->getValue('uid') != 'iwcc')
+    {
+        if ($clang_id == rex_clang::getStartId() || !$form->isEditMode())
+        {
+            $field = $form->addTextAreaField('script');
+            $field->setLabel($this->i18n('iwcc_cookiegroup_scripts'));
+            $field->setNotice($this->i18n('iwcc_cookiegroup_scripts_notice'));
+        }
+        else
+        {
+            $form->addRawField(iwcc_rex_form::getFakeTextarea($this->i18n('iwcc_cookiegroup_scripts'), $form->getSql()->getValue('script')));
+        }
+    }
+
+    $field = $form->addTextAreaField('placeholder_text');
+    $field->setLabel($this->i18n('iwcc_cookie_placeholder_text'));
+    $field = $form->addMediaField('placeholder_image');
+    $field->setLabel($this->i18n('iwcc_cookie_placeholder_image'));
 
     $title = $form->isEditMode() ? $this->i18n('iwcc_cookie_edit') : $this->i18n('iwcc_cookie_add');
     $content = $form->get();

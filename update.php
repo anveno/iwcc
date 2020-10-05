@@ -1,16 +1,4 @@
 <?php
-$sql = \rex_sql::factory();
-$sql->setQuery("SELECT * FROM ". \rex::getTablePrefix() ."iwcc_text WHERE `uid` = 'button_accept';");
-if($sql->getRows() == 0) {
-    foreach(\rex_clang::getAllIds() as $clang_id) {
-	    $sql->setQuery("INSERT INTO `". \rex::getTablePrefix() ."iwcc_text` (`clang_id`, `uid`, `text`) VALUES (". $clang_id .", 'button_accept', 'Auswahl bestätigen');");
-    }
-}
-
-$sql = \rex_sql::factory();
-$sql->setQuery("SELECT * FROM ". \rex::getTablePrefix() ."iwcc_text WHERE `uid` = 'button_select_all';");
-if($sql->getRows() == 0) {
-    foreach(\rex_clang::getAllIds() as $clang_id) {
-	    $sql->setQuery("INSERT INTO `". \rex::getTablePrefix() ."iwcc_text` (`clang_id`, `uid`, `text`) VALUES (". $clang_id .", 'button_select_all', 'Alle auswählen');");
-    }
-}
+$addon = rex_addon::get('iwcc');
+$addon->includeFile(__DIR__.'/install.php');
+$this->setConfig('forceCache', true);

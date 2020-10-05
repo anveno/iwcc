@@ -8,6 +8,9 @@ rex_sql_table::get(rex::getTable('iwcc_cookie'))
     ->ensureColumn(new rex_sql_column('provider', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('provider_link_privacy', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('definition', 'text'))
+    ->ensureColumn(new rex_sql_column('script', 'text'))
+    ->ensureColumn(new rex_sql_column('placeholder_text', 'text'))
+    ->ensureColumn(new rex_sql_column('placeholder_image', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
@@ -57,6 +60,24 @@ rex_sql_table::get(rex::getTable('iwcc_text'))
     ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
     ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
     ->setPrimaryKey('pid')
+    ->ensure();
+
+rex_sql_table::get(rex::getTable('iwcc_cache_log'))
+    ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
+    ->ensureColumn(new rex_sql_column('consent', 'text'))
+    ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
+    ->setPrimaryKey('id')
+    ->ensure();
+
+rex_sql_table::get(rex::getTable('iwcc_consent_log'))
+    ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
+    ->ensureColumn(new rex_sql_column('consentid', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('consents', 'text'))
+    ->ensureColumn(new rex_sql_column('cachelogid', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('ip', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
+    ->setPrimaryKey('id')
     ->ensure();
 
 if ($this->getConfig('justInstalled', -1) === -1) {
